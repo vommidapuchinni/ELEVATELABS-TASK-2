@@ -4,7 +4,6 @@ pipeline {
     stages {
         stage('Clone') {
             steps {
-                // Use credentials and specify the correct branch
                 git branch: 'main', credentialsId: 'github-creds', url: 'https://github.com/vommidapuchinni/ELEVATELABS-TASK-2.git'
             }
         }
@@ -15,9 +14,21 @@ pipeline {
             }
         }
 
-        stage('Run Docker Container') {
+        stage('Test') {
             steps {
-                // Stop & remove old container if exists, then run new one
+                // Run the container temporarily and test if it's working
+                sh '''
+                    docker run -d -p 5000:5000 --name temp-container nodejs-app
+                    sleep 3
+                    curl --fail http://localhost:5000
+                    docker stop temp-container
+                    docker rm temp-container
+                '''
+            }
+        }
+
+        stage('Deploy') {
+            steps {
                 sh '''
                     docker stop myapp || true
                     docker rm myapp || true
@@ -27,3 +38,4 @@ pipeline {
         }
     }
 }
+
