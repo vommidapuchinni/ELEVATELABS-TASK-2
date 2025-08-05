@@ -4,7 +4,8 @@ pipeline {
     stages {
         stage('Clone') {
             steps {
-                git 'https://github.com/YOUR_USERNAME/ELEVATELABS-TASK-2.git'
+                // Use credentials if needed for private repo
+                git credentialsId: 'github-creds', url: 'https://github.com/vommidapuchinni/ELEVATELABS-TASK-2.git'
             }
         }
 
@@ -16,9 +17,13 @@ pipeline {
 
         stage('Run Docker Container') {
             steps {
-                sh 'docker run -d -p 3000:3000 --name myapp nodejs-app'
+                // Stop & remove old container if already exists (to avoid conflict)
+                sh '''
+                    docker stop myapp || true
+                    docker rm myapp || true
+                    docker run -d -p 6000:6000 --name myapp nodejs-app
+                '''
             }
         }
     }
 }
-
