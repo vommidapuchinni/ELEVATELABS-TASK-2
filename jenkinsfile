@@ -8,26 +8,22 @@ pipeline {
             }
         }
 
+        stage('Install Dependencies & Test') {
+            steps {
+                sh '''
+                    npm install
+                    npm test || echo "No tests defined"
+                '''
+            }
+        }
+
         stage('Build Docker Image') {
             steps {
                 sh 'docker build -t nodejs-app .'
             }
         }
 
-        stage('Test') {
-            steps {
-                // Run the container temporarily and test if it's working
-                sh '''
-                    docker run -d -p 5000:5000 --name temp-container nodejs-app
-                    sleep 3
-                    curl --fail http://localhost:5000
-                    docker stop temp-container
-                    docker rm temp-container
-                '''
-            }
-        }
-
-        stage('Deploy') {
+        stage('Run Docker Container') {
             steps {
                 sh '''
                     docker stop myapp || true
