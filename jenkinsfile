@@ -2,18 +2,9 @@ pipeline {
     agent any
 
     stages {
-        stage('Clone') {
+        stage('Clone Repository') {
             steps {
                 git branch: 'main', credentialsId: 'github-creds', url: 'https://github.com/vommidapuchinni/ELEVATELABS-TASK-2.git'
-            }
-        }
-
-        stage('Install Dependencies & Test') {
-            steps {
-                sh '''
-                    npm install
-                    npm test || echo "No tests defined"
-                '''
             }
         }
 
@@ -23,7 +14,15 @@ pipeline {
             }
         }
 
-        stage('Run Docker Container') {
+        stage('Run Tests') {
+            steps {
+                sh 'npm install'
+                // Test step after build (optional: make it fail the pipeline if needed)
+                sh 'npm test || echo "No tests defined or failed tests (non-blocking)"'
+            }
+        }
+
+        stage('Deploy Docker Container') {
             steps {
                 sh '''
                     docker stop myapp || true
@@ -34,4 +33,3 @@ pipeline {
         }
     }
 }
-
