@@ -4,8 +4,8 @@ pipeline {
     stages {
         stage('Clone') {
             steps {
-                // Use credentials if needed for private repo
-                git credentialsId: 'github-creds', url: 'https://github.com/vommidapuchinni/ELEVATELABS-TASK-2.git'
+                // Use credentials and specify the correct branch
+                git branch: 'main', credentialsId: 'github-creds', url: 'https://github.com/vommidapuchinni/ELEVATELABS-TASK-2.git'
             }
         }
 
@@ -17,7 +17,7 @@ pipeline {
 
         stage('Run Docker Container') {
             steps {
-                // Stop & remove old container if already exists (to avoid conflict)
+                // Stop & remove old container if exists, then run new one
                 sh '''
                     docker stop myapp || true
                     docker rm myapp || true
