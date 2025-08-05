@@ -30,6 +30,10 @@ Deploy: Run the container
 
 Configured Jenkins to pull code from GitHub on commit.
 
+Added GitHub webhook pointing to Jenkins URL with /github-webhook/
+
+Exposed port 5000 in Docker and EC2 security group
+
 Exposed port 5000 in the Docker container.
 
 Accessed the app using: http://<ec2-public-ip>:5000
