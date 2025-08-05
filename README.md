@@ -38,4 +38,4 @@ Exposed port 5000 in the Docker container.
 
 Accessed the app using: http://<ec2-public-ip>:5000
 
-#Documentation done and kept screenshots in it
+# Documentation done and kept screenshots in it
