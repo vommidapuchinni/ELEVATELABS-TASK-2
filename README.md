@@ -11,15 +11,26 @@ GitHub – source code and Jenkinsfile
 
 # What I Did
 Set up Jenkins on an AWS EC2 Ubuntu instance.
+
 Installed required plugins: Git, Docker, Pipeline, etc.
+
 Wrote a simple Node.js app with one endpoint:
+
 GET / returns “Node.js App Deployed via Jenkins!”
+
 Created a Dockerfile to build the Node.js app image.
+
 Wrote a Jenkinsfile with the following pipeline stages:
+
 Build: Build Docker image
+
 Test: Run basic curl test
+
 Deploy: Run the container
+
 Configured Jenkins to pull code from GitHub on commit.
+
 Exposed port 5000 in the Docker container.
+
 Accessed the app using: http://<ec2-public-ip>:5000
 
